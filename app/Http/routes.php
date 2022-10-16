@@ -11,6 +11,15 @@
 |
 */
 
-Route::get('/welcome', function () { return view('title'); });
-Route::get('/welcome', function () { return view('title'); });
-Route::get('/add', function () { return view('title'); });
+Route::get('/', "WebsiteController@Homepage")->name('homepage');
+Route::get('/add', function () { return view('add'); });
+Route::post('/add-task', "WebsiteController@Add");
+
+/*Route::get('/', "WebsiteController@Homepage")->name('homepage');
+Route::get('/add-cheese', function () { return view('add-cheese'); });
+Route::post('/delete-cheese', "WebsiteController@Delete");
+
+Route::get('/',        function () { return view('title'); });
+Route::get('/welcome', function () { return redirect('/'); });
+Route::get('/title',   function () { return redirect('/'); });
+Route::get('/add',   function () { return view('/add'); });*/
