@@ -20,21 +20,22 @@ active
 
     <form method="POST" action="add-task">
         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-        Title:<br>
-        <input type="text" name="title"><br>
-        Description:<br>
-        <input type="text" name="description"><br>
-        Starts:<br>
-        <input type="datetime-local" name="starts"><br>
-        Ends:<br>
-        <input type="datetime-local" name="ends"><br>
-        Status:<br>
-        <input type="text" name="status" list="statusList">
-        <datalist id="statusList">
-            <option value="Started">
-            <option value="In Progress">
-            <option value="Completed">
-        </datalist>
-        <input type="submit">
+        <ul>
+            <li>Title:<br></li>
+            <li><input type="text" name="title" value="{{ old('title') }}"><br><br></li>
+            <li>Description:<br></li>
+            <li><input type="text" name="description" value="{{ old('description') }}"><br><br></li>
+            <li>Starts:<br></li>
+            <li><input type="datetime-local" name="starts" value="{{ old('starts') }}"><br><br></li>
+            <li>Ends:<br></li>
+            <li><input type="datetime-local" name="ends" value="{{ old('ends') }}"><br><br></li>
+            <li>Status:<br></li>
+            <li><select name="status">
+                <option value="Started">Started</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+            </select><br><br><li>
+            <input type="submit">
+        </ul>
     </form>
 @endsection

@@ -18,20 +18,10 @@ class WebsiteController extends Controller
 
     public function Add(Request $request) 
     {
-        echo var_dump($request);
-
-        $validated = $request->validate([
-            'title' => 'required|min:3|max:100',
-            'description' => 'required|min:3|max:500'
-        ]);
-
-        /*$table = new Task;
-        $table->title = $request->input('title');
-        $table->description = $request->input('description');
-        $table->starts = $request->input('starts');
-        $table->ends = $request->input('ends');
-        $table->status = $request->input('status');
-        $table->save();*/
+        WebsiteController::ValidateTask($request);
+        $task = new Task;
+        WebsiteController::UpdateTask($request, $task);
+        $task->save();
 
         return redirect()->route('homepage');
     }
@@ -39,7 +29,55 @@ class WebsiteController extends Controller
     public function Delete(Request $request) 
     {
         DB::table('tasks')->where('id', $request['id'])->delete();
-
         return redirect()->route('homepage');
+    }
+
+    public function Update(Request $request) 
+    {
+        $data = Task::find($request['id']);
+        return view('update', ['data' => $data]);
+    }
+
+    public function UpdateTasks(Request $request) 
+    {
+        WebsiteController::ValidateTask($request);
+        $task = Task::find($request->input('id'));
+        WebsiteController::UpdateTask($request, $task);
+        $task->update();
+        
+        return redirect()->route('homepage');
+    }
+
+    public function ValidateTask(Request $request)
+    {
+        $passed = $request->validate([
+            'title' => [
+                'required',
+                'min:3',
+                'max:100'
+            ],
+            'description' => [
+                'required',
+                'min:3',
+                'max:500'
+            ],
+            'starts' => [
+                'required',
+                'date'
+            ],
+            'ends' => [
+                'required',
+                'date'
+            ]
+        ]);
+    }
+
+    public function UpdateTask(Request $request, Task $task)
+    {
+        $task->title = $request->input('title');
+        $task->description = $request->input('description');
+        $task->starts = $request->input('starts');
+        $task->ends = $request->input('ends');
+        $task->status = $request->input('status');
     }
 }
